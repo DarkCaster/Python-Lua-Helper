@@ -22,8 +22,6 @@ class PyLuaHelper:
         post_script: str = None,
         extra_strings: List[str] = None,
         work_dir: str = None,
-        result_name: str = "cfg",
-        export_list_name: str = "cfg_list",
         temp_dir: str = None,
         min_lua_version: str = None,
         max_lua_version: str = None,
@@ -41,12 +39,11 @@ class PyLuaHelper:
             extra_strings: Extra strings to add to loader.extra table
             work_dir: Working directory for Lua scripts
             result_name: Name of the dictionary to store exported variables
-            export_list_name: Name of variable containing list of exported variables
             temp_dir: Base directory for temporary files
             min_lua_version: Minimum required Lua version
             max_lua_version: Maximum allowed Lua version
-            lua_binary: Path to specific Lua binary
-            lua_args: Additional arguments to pass to Lua script
+            lua_binary: Path to specific Lua binary (optional, will be auto-detected if not provided)
+            lua_args: Additional arguments to pass to Lua script (will be placed to loader.args)
         """
         self.lua_config_script = os.path.abspath(lua_config_script)
         self.export_vars = export_vars or []
@@ -54,8 +51,6 @@ class PyLuaHelper:
         self.post_script = post_script
         self.extra_strings = extra_strings or []
         self.work_dir = work_dir or os.path.dirname(self.lua_config_script)
-        self.result_name = result_name
-        self.export_list_name = export_list_name
         self.temp_dir = temp_dir
         self.min_lua_version = min_lua_version or "5.1.0"
         self.max_lua_version = max_lua_version or "5.4.999"
@@ -223,23 +218,19 @@ class PyLuaHelper:
         # Add temp directory
         cmd.extend(["-t", self.temp_dir])
 
-        # Add result name
-        cmd.extend(["-r", self.result_name])
-
-        # Add export list name
-        cmd.extend(["-l", self.export_list_name])
+        # Add -- separator
+        cmd.append("--")
 
         # Add additional Lua arguments
         cmd.extend(self.lua_args)
 
-        # Add -- separator
-        cmd.append("--")
-
         # Execute the command
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+            print(result.stdout)
+            print(result.stderr)
             if result.returncode != 0:
-                raise RuntimeError(f"Lua loader failed: {result.stderr}")
+                raise RuntimeError(f"Lua loader failed with error code {result.returncode}")
         except subprocess.TimeoutExpired:
             raise RuntimeError("Lua loader timed out")
 
