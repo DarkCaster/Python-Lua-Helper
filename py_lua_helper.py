@@ -227,8 +227,8 @@ class PyLuaHelper:
         # Execute the command
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
-            print(result.stdout)
-            print(result.stderr)
+            print(result.stdout, end="")
+            print(result.stderr, end="")
             if result.returncode != 0:
                 raise RuntimeError(f"Lua loader failed with error code {result.returncode}")
         except subprocess.TimeoutExpired:
