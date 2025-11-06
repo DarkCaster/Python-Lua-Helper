@@ -1,4 +1,4 @@
 /test/
 /.perpetual
-/task.md
+/task*.md
 /__pycache__
