@@ -230,7 +230,9 @@ class PyLuaHelper:
             print(result.stdout, end="")
             print(result.stderr, end="")
             if result.returncode != 0:
-                raise RuntimeError(f"Lua loader failed with error code {result.returncode}")
+                raise RuntimeError(
+                    f"Lua loader failed with error code {result.returncode}"
+                )
         except subprocess.TimeoutExpired:
             raise RuntimeError("Lua loader timed out")
 
@@ -298,21 +300,21 @@ class PyLuaHelper:
         """Get variable value with default."""
         return self._variables.get(key, default)
 
-    def get_table_start(self, key: str) -> str:
-        """Get start position of table if variable is a table."""
+    def get_table_start(self, key: str) -> int:
+        """Get start indexed element index of table if variable is a table and indexed (keyless) elements present, 0 if no indexed elements present"""
         if key in self._metadata:
             match = re.match(r"^table:(.*):(.*)", self._metadata[key])
             if match:
                 return match.group(1)
-        return "0"
+        return 0
 
-    def get_table_end(self, key: str) -> str:
-        """Get end position of table if variable is a table."""
+    def get_table_end(self, key: str) -> int:
+        """Get end position of table if variable is a table, last indexable element is less than this number"""
         if key in self._metadata:
             match = re.match(r"^table:(.*):(.*)", self._metadata[key])
             if match:
                 return match.group(2)
-        return "0"
+        return 0
 
     def __repr__(self) -> str:
         """String representation."""
