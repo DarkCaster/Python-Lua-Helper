@@ -61,6 +61,7 @@ class PyLuaHelper:
         self.max_lua_version = max_lua_version or "5.4.999"
         self.lua_binary = lua_binary
         self.lua_args = lua_args or []
+        self.lua_actual_version = None
 
         # Validate required files exist
         if not os.path.exists(self.lua_config_script):
@@ -154,7 +155,7 @@ class PyLuaHelper:
         raise RuntimeError("Failed to detect compatible Lua interpreter")
 
     def _validate_lua_version(self, lua_binary: str) -> bool:
-        """Validate Lua binary version against requirements."""
+        """Validate Lua binary version against requirements and return actual version."""
         try:
             result = subprocess.run(
                 [lua_binary, "-v"], capture_output=True, text=True, timeout=5
@@ -175,6 +176,9 @@ class PyLuaHelper:
             ):
                 if not (min_v <= act <= max_v):
                     return False
+
+            # Store the actual version if validation passes
+            self.lua_actual_version = act_version
             return True
         except Exception:
             return False
@@ -185,7 +189,14 @@ class PyLuaHelper:
         cmd = [self.lua_binary, os.path.join(os.path.dirname(__file__), "loader.lua")]
 
         # Add version info
-        cmd.extend(["-ver", self.min_lua_version, self.max_lua_version])
+        cmd.extend(
+            [
+                "-ver",
+                str(self.lua_actual_version[0]),
+                str(self.lua_actual_version[1]),
+                str(self.lua_actual_version[2]),
+            ]
+        )
 
         # Add configuration parameters
         cmd.extend(["-c", self.lua_config_script])
@@ -226,13 +237,11 @@ class PyLuaHelper:
 
         # Execute the command
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
             if result.returncode != 0:
                 raise RuntimeError(f"Lua loader failed: {result.stderr}")
         except subprocess.TimeoutExpired:
             raise RuntimeError("Lua loader timed out")
-        except Exception as e:
-            raise RuntimeError(f"Failed to execute Lua loader: {str(e)}")
 
     def _parse_results(self):
         """Parse exported variables from temporary files."""
