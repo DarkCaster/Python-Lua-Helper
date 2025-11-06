@@ -1,6 +1,6 @@
 -- load this config script and execute with bash helper (or loader.lua)
 
-loader.log("message from main config script")
+loader.log("example.cfg.lua: message from user config script")
 
 config =
 {
@@ -17,10 +17,14 @@ config =
 		{
 			message="another message",
 		},
-        lua_v1=loader.lua_version[1],
-        lua_v2=loader.lua_version[2],
-        lua_v3=loader.lua_version[3],
-        lua_num=loader.lua_version.num,
+		lua_v1=loader.lua_version[1],
+		lua_v2=loader.lua_version[2],
+		lua_v3=loader.lua_version[3],
+		lua_num=loader.lua_version.num,
+		extra_1=loader.extra[1],
+		extra_2=loader.extra[2],
+		loader_args=loader.args,
+		mixed={ 1, "text", true, key="test_value" }
 	},
 	paths=
 	{
@@ -30,7 +34,7 @@ config =
 		tempdir_raw=loader.tmpdir_raw,
 		workdir_raw=loader.workdir_raw,
 		dynpath_raw=loader.workdir_raw .. loader.slash .. "file",
-	}
+	},
 }
 
 -- add yet another value

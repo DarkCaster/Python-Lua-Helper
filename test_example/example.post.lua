@@ -1,4 +1,4 @@
-loader.log("message from optional post script")
+loader.log("example.post.lua: message from optional post script, you can add lua asserts for exported config values here")
 
 assert(tonumber(config.sub.number1) ~= nil)
 assert(tonumber(config.sub.number2) ~= nil)
