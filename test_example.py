@@ -90,7 +90,6 @@ print(f"example.py: cfg['config.paths.dynpath'] = {cfg.get('config.paths.dynpath
 print(f"example.py: cfg['config.paths.tempdir_raw'] = {cfg.get('config.paths.tempdir_raw', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.paths.workdir_raw'] = {cfg.get('config.paths.workdir_raw', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.paths.dynpath_raw'] = {cfg.get('config.paths.dynpath_raw', 'NOT_FOUND')}")
-print(f"example.py: (should be empty, because it exist, but is a container) cfg['config.sub'] = {cfg.get('config.sub', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v1'] = {cfg.get('config.sub.lua_v1', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v2'] = {cfg.get('config.sub.lua_v2', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v3'] = {cfg.get('config.sub.lua_v3', 'NOT_FOUND')}")
@@ -101,6 +100,10 @@ print(f"example.py: cfg['config.sub.number1'] = {cfg.get('config.sub.number1', '
 print(f"example.py: cfg['config.sub.string'] = {cfg.get('config.sub.string', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.problematic_string'] = {cfg.get('config.sub.problematic_string', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.non_latin_string'] = {cfg.get('config.sub.non_latin_string', 'NOT_FOUND')}")
+print(f"example.py: (should be empty regardless of fallback value, because it is a container: cfg['config.sub.sub']) = {cfg.get('config.sub.sub', 'NOT_FOUND')}")
+print(f"example.py: cfg['config.sub.sub'] as int with fallback value -1) = {cfg.get_int('config.sub.sub',-1)}")
+print(f"example.py: cfg['config.sub.sub'] as int with fallback value -1.6) = {cfg.get_int('config.sub.sub',-1.6)}")
+print(f"example.py: cfg['config.sub.sub'] as float with fallback value -1.5) = {cfg.get_float('config.sub.sub',-1.5)}")
 print(f"example.py: cfg['config.sub.sub.message'] = {cfg.get('config.sub.sub.message', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.sub.message2'] = {cfg.get('config.sub.sub.message2', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.multiline_string'] = {cfg.get('config.sub.multiline_string', 'NOT_FOUND')}")
@@ -108,9 +111,14 @@ print(f"example.py: cfg['config.sub.multiline_string'] = {cfg.get('config.sub.mu
 # Test mixed table access (indexed and named elements)
 print(f"example.py: table start for config.sub.mixed: {cfg.get_table_start('config.sub.mixed')}")
 print(f"example.py: table end for config.sub.mixed: {cfg.get_table_end('config.sub.mixed')}")
+print(f"example.py: table indices sequence for config.sub.mixed: {cfg.get_table_seq('config.sub.mixed')}")
 print(f"example.py: cfg['config.sub.mixed.1'] = {cfg.get('config.sub.mixed.1', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.2'] = {cfg.get('config.sub.mixed.2', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.3'] = {cfg.get('config.sub.mixed.3', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.4'] = {cfg.get('config.sub.mixed.4', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.key'] = {cfg.get('config.sub.mixed.key', 'NOT_FOUND')}")
 
+# Show extra cmdline parameters passed to lua script as loader.args table and assigned to config.sub.loader_args
+print(f"example.py: config.sub.loader_args indices sequence: {cfg.get_table_seq('config.sub.loader_args')}")
+for i in cfg.get_table_seq('config.sub.loader_args'):
+    print(f"example.py: cfg['config.sub.loader_args.{i}'] = {cfg.get(f'config.sub.loader_args.{i}', 'NOT_FOUND')}")
