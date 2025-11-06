@@ -300,6 +300,24 @@ class PyLuaHelper:
         """Get variable value with default."""
         return self._variables.get(key, default)
 
+    def get_int(self, key: str, default: int = None) -> int:
+        """Get variable value as integer with defaults on type conversion error."""
+        try:
+            return int(self._variables.get(key, default))
+        except ValueError:
+            if default is not None:
+                return int(default)
+            raise
+
+    def get_float(self, key: str, default: float = None) -> float:
+        """Get variable value as float with defaults on type conversion error."""
+        try:
+            return float(self._variables.get(key, default))
+        except ValueError:
+            if default is not None:
+                return float(default)
+            raise
+
     def get_table_start(self, key: str) -> int:
         """Get start indexed element index of table if variable is a table and indexed (keyless) elements present, 0 if no indexed elements present"""
         if key in self._metadata:
