@@ -305,7 +305,7 @@ class PyLuaHelper:
         if key in self._metadata:
             match = re.match(r"^table:(.*):(.*)", self._metadata[key])
             if match:
-                return match.group(1)
+                return int(match.group(1))
         return 0
 
     def get_table_end(self, key: str) -> int:
@@ -313,8 +313,16 @@ class PyLuaHelper:
         if key in self._metadata:
             match = re.match(r"^table:(.*):(.*)", self._metadata[key])
             if match:
-                return match.group(2)
+                return int(match.group(2))
         return 0
+
+    def get_table_seq(self, key: str) -> List[int]:
+        """Get sequence of table indices if variable is a table with indexed elements."""
+        start = self.get_table_start(key)
+        end = self.get_table_end(key)
+        if start == 0:
+            return []
+        return list(range(start, end))
 
     def __repr__(self) -> str:
         """String representation."""

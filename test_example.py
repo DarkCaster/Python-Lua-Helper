@@ -90,7 +90,7 @@ print(f"example.py: cfg['config.paths.dynpath'] = {cfg.get('config.paths.dynpath
 print(f"example.py: cfg['config.paths.tempdir_raw'] = {cfg.get('config.paths.tempdir_raw', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.paths.workdir_raw'] = {cfg.get('config.paths.workdir_raw', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.paths.dynpath_raw'] = {cfg.get('config.paths.dynpath_raw', 'NOT_FOUND')}")
-print(f"example.py: (should be empty, because it is a container) cfg['config.sub'] = {cfg.get('config.sub', 'NOT_FOUND')}")
+print(f"example.py: (should be empty, because it exist, but is a container) cfg['config.sub'] = {cfg.get('config.sub', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v1'] = {cfg.get('config.sub.lua_v1', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v2'] = {cfg.get('config.sub.lua_v2', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.lua_v3'] = {cfg.get('config.sub.lua_v3', 'NOT_FOUND')}")
@@ -113,3 +113,4 @@ print(f"example.py: cfg['config.sub.mixed.2'] = {cfg.get('config.sub.mixed.2', '
 print(f"example.py: cfg['config.sub.mixed.3'] = {cfg.get('config.sub.mixed.3', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.4'] = {cfg.get('config.sub.mixed.4', 'NOT_FOUND')}")
 print(f"example.py: cfg['config.sub.mixed.key'] = {cfg.get('config.sub.mixed.key', 'NOT_FOUND')}")
+
