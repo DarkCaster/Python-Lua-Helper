@@ -1,10 +1,9 @@
 import os
-import sys
 import tempfile
 import subprocess
 import shutil
 import re
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 class PyLuaHelper:
     """
-    Python equivalent of lua-helper.bash.in for loading Lua configuration files
-    and exporting them to Python dictionaries.
+    Python helper for loading Lua configuration files by running them with Lua interpreter and exporting requested tables to Python dictionaries.
     """
 
     def __init__(
