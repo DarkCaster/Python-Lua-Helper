@@ -13,6 +13,7 @@ print("example.py says: creating PyLuaHelper instance")
 cfg = PyLuaHelper(
     lua_config_script=os.path.join(script_dir, "example.cfg.lua"),
     export_vars=["config.sub", "config.paths", "config.empty", "wrong.table", "empty"],
+    extra_strings=["test1", "test2"],
     pre_script=os.path.join(script_dir, "example.pre.lua"),
     post_script=os.path.join(script_dir, "example.post.lua"),
     work_dir=script_dir,
