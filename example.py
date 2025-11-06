@@ -16,8 +16,6 @@ cfg = PyLuaHelper(
     pre_script=os.path.join(script_dir, "example.pre.lua"),
     post_script=os.path.join(script_dir, "example.post.lua"),
     work_dir=script_dir,
-    result_name="cfg",
-    export_list_name="cfg_list"
 )
 
 print("example.py says: PyLuaHelper complete")
