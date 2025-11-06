@@ -137,7 +137,7 @@ class PyLuaHelper:
                 )
 
         # Probe for available Lua binaries
-        lua_hints = ["lua", "lua5.3", "lua53", "lua5.2", "lua52", "lua5.1", "lua51"]
+        lua_hints = ["lua", "lua5.4", "lua54", "lua5.3", "lua53", "lua5.2", "lua52", "lua5.1", "lua51"]
         for hint in lua_hints:
             try:
                 lua_path = shutil.which(hint)
