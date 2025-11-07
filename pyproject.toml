@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "Python-Lua-Helper"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lua configuration system for your Python projects."
 authors = [
     {name = "DarkCaster", email = "dark.caster@outlook.com"}
@@ -14,13 +14,10 @@ dependencies = []
 [project.optional-dependencies]
 dev = [ "pytest" ]
 
-[tool.hatch.build.targets.sdist]
-only-include = [
+[tool.hatch.build.targets.wheel]
+packages = [
   "/*.py",
   "/*.lua",
   "/test_example",
   "/LICENSE",
 ]
-
-[tool.hatch.build.targets.wheel]
-packages = ["/"]
