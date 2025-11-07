@@ -4,15 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "Python-Lua-Helper"
-version = "0.1.1"
+version = "0.1.2"
 description = "Lua configuration system for your Python projects."
 authors = [
     {name = "DarkCaster", email = "dark.caster@outlook.com"}
 ]
 dependencies = []
-
-[project.optional-dependencies]
-dev = [ "pytest" ]
 
 [tool.hatch.build.targets.wheel]
 packages = [
