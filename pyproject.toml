@@ -21,3 +21,6 @@ only-include = [
   "/test_example",
   "/LICENSE",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["/"]
