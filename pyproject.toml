@@ -15,8 +15,9 @@ dependencies = []
 dev = [ "pytest" ]
 
 [tool.hatch.build.targets.sdist]
-include = [
-  "*.py",
-  "*.lua",
-  "test_example",
+only-include = [
+  "/*.py",
+  "/*.lua",
+  "/test_example",
+  "/LICENSE",
 ]
