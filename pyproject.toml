@@ -13,3 +13,10 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [ "pytest" ]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "*.py",
+  "*.lua",
+  "test_example",
+]
