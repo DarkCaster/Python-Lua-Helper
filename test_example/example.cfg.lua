@@ -11,7 +11,7 @@ config =
 		number2="123",
 		string="123x",
 		multiline_string="line1\nline2\nline3",
-		non_latin_string="Съешь еще этих мягких мексиканских кактусов, да выпей текилы",
+		non_latin_string="やれやれだぜ",
 		problematic_string=" $ $$ & && \\ - [1] \\\\ - [2] \\\\\\ - [3] ! !! [ [[ ] ]] ( (( ) )) ' '' \" \"\" ` `` \\n \\t \\r / // /// ? ?? !",
 		sub=
 		{
