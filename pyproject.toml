@@ -10,6 +10,17 @@ authors = [
     {name = "DarkCaster", email = "dark.caster@outlook.com"}
 ]
 dependencies = []
+requires-python = ">=3.8"
+maintainers = [
+    {name = "DarkCaster", email = "dark.caster@outlook.com"}
+]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["lua", "configuration"]
+
+[project.urls]
+Repository = "https://github.com/DarkCaster/Perpetual.git"
 
 [tool.hatch.build.targets.wheel]
 packages = [
