@@ -30,8 +30,8 @@ diff -uprN lua-5.4.8.old/src/luaconf.h lua-5.4.8/src/luaconf.h
  
 diff -uprN lua-5.4.8.old/src/Makefile lua-5.4.8/src/Makefile
 --- lua-5.4.8.old/src/Makefile	2023-02-03 13:43:14.000000000 +0300
-+++ lua-5.4.8/src/Makefile	2025-11-15 14:36:58.919960777 +0300
-@@ -123,10 +123,10 @@ ios:
++++ lua-5.4.8/src/Makefile	2025-11-15 17:18:54.952610183 +0300
+@@ -123,18 +123,17 @@ ios:
  Linux linux:	linux-noreadline
  
  linux-noreadline:
@@ -44,3 +44,13 @@ diff -uprN lua-5.4.8.old/src/Makefile lua-5.4.8/src/Makefile
  
  Darwin macos macosx:
  	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_MACOSX -DLUA_USE_READLINE" SYSLIBS="-lreadline"
+ 
+ mingw:
+-	$(MAKE) "LUA_A=lua54.dll" "LUA_T=lua.exe" \
+-	"AR=$(CC) -shared -o" "RANLIB=strip --strip-unneeded" \
+-	"SYSCFLAGS=-DLUA_BUILD_AS_DLL" "SYSLIBS=" "SYSLDFLAGS=-s" lua.exe
++	$(MAKE) "LUA_T=lua.exe" \
++	"SYSCFLAGS=-pie" "SYSLIBS=" "SYSLDFLAGS=-pie" lua.exe
+ 	$(MAKE) "LUAC_T=luac.exe" luac.exe
+ 
+ posix:
