@@ -32,3 +32,10 @@ include = [
   "*.lua",
   "/test_example",
 ]
+
+[tool.hatch.build.targets.wheel]
+include = [
+  "*.py",
+  "*.lua",
+  "/test_example",
+]
