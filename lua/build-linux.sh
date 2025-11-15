@@ -5,7 +5,7 @@ arch=$(arch)
 
 pushd "$script_dir/build/lua-"*
 
-patch -p1 -i ../../no-dlopen.patch
+patch -p1 -i ../../build.patch
 
 #  CC="x86_64-linux-gnu-gcc -std=gnu99" \
 #  AR="x86_64-linux-gnu-ar rcu" \
