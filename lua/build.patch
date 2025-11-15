@@ -50,7 +50,7 @@ diff -uprN lua-5.4.8.old/src/Makefile lua-5.4.8/src/Makefile
 -	"AR=$(CC) -shared -o" "RANLIB=strip --strip-unneeded" \
 -	"SYSCFLAGS=-DLUA_BUILD_AS_DLL" "SYSLIBS=" "SYSLDFLAGS=-s" lua.exe
 +	$(MAKE) "LUA_T=lua.exe" \
-+	"SYSCFLAGS=-pie" "SYSLIBS=" "SYSLDFLAGS=-pie" lua.exe
++	"SYSCFLAGS=" "SYSLIBS=" "SYSLDFLAGS=" lua.exe
  	$(MAKE) "LUAC_T=luac.exe" luac.exe
  
  posix:
