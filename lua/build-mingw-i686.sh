@@ -12,7 +12,7 @@ make \
   AR="i686-w64-mingw32-ar rc" \
   RANLIB="i686-w64-mingw32-ranlib" \
   MYCFLAGS="-Os -fPIE -flto -fuse-linker-plugin -ffat-lto-objects" \
-  MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects -Wl,-z,relro,-z,now"
+  MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects"
 
 i686-w64-mingw32-strip --strip-unneeded src/lua.exe
 cp src/lua.exe ../../lua-windows-i686.exe
