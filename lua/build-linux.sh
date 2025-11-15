@@ -11,8 +11,8 @@ patch -p1 -i ../../build.patch
 
 make \
   PLAT=linux \
-  MYCFLAGS="-fPIC -flto -fuse-linker-plugin -ffat-lto-objects" \
-  MYLDFLAGS="-static -fPIC -flto -fuse-linker-plugin -ffat-lto-objects"
+  MYCFLAGS="-Os -fPIC -flto -fuse-linker-plugin -ffat-lto-objects" \
+  MYLDFLAGS="-Os -static -fPIC -flto -fuse-linker-plugin -ffat-lto-objects"
 
 strip --strip-unneeded src/lua
 cp src/lua ../../lua-linux-$arch
