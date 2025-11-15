@@ -1,7 +1,9 @@
 set -e
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
-arch=$(arch)
+
+arch="$1"
+[[ -z $arch ]] && arch=$(arch)
 
 cd "$script_dir/build/lua-"*
 

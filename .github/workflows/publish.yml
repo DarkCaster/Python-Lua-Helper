@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build LUA for linux
-        run: cd lua && ./download-lua.sh && ./build-linux.sh
+        run: cd lua && ./download-lua.sh && ./build-linux.sh ${{ matrix.arch }}
         shell: alpine.sh {0}
 
       - name: Store the distribution packages
