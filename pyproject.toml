@@ -30,8 +30,7 @@ include = [
 
 [tool.hatch.build.targets.wheel]
 packages = [
-  "/*.py",
-  "/*.lua",
+  "*.py",
+  "*.lua",
   "/test_example",
-  "/LICENSE",
 ]
