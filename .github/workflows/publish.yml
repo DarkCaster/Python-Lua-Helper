@@ -36,7 +36,7 @@ jobs:
     name: Build lua for linux
     strategy:
       matrix:
-        arch: [x86_64, x86, aarch64, armhf, armv7]
+        arch: [x86_64, x86, aarch64, armv7]
     runs-on: ubuntu-latest
     steps:
       - uses: jirutka/setup-alpine@v1
