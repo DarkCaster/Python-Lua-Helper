@@ -11,8 +11,8 @@ make \
   CC="x86_64-w64-mingw32-gcc -std=gnu99" \
   AR="x86_64-w64-mingw32-ar rc" \
   RANLIB="x86_64-w64-mingw32-ranlib" \
-  MYCFLAGS="-Os -flto -fuse-linker-plugin -ffat-lto-objects" \
-  MYLDFLAGS="-Os -static -flto -fuse-linker-plugin -ffat-lto-objects"
+  MYCFLAGS="-Os -fPIE -flto -fuse-linker-plugin -ffat-lto-objects" \
+  MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects -Wl,-z,relro,-z,now"
 
 x86_64-w64-mingw32-strip --strip-unneeded src/lua.exe
 cp src/lua.exe ../../lua-windows-x86_64.exe
