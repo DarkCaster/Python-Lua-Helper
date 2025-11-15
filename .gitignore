@@ -2,3 +2,4 @@
 /.perpetual
 /task*.md
 /__pycache__
+/lua/*.tar.gz
