@@ -26,6 +26,12 @@ jobs:
       - name: Build LUA for windows x86_64
         run: cd lua && ./download-lua.sh && ./build-mingw-x86_64.sh
 
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-windows
+          path: lua/lua-*.exe
+
   package-build:
     needs:
     - lua-windows-build
