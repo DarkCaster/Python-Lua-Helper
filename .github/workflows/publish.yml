@@ -58,7 +58,7 @@ jobs:
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
-          name: lua-linux
+          name: lua-linux-${{ matrix.arch }}
           path: lua/lua-linux-*
 
   package-build:
