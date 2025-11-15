@@ -14,7 +14,6 @@ requires-python = ">=3.8"
 maintainers = [
     {name = "DarkCaster", email = "dark.caster@outlook.com"}
 ]
-readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 keywords = ["lua", "configuration"]
