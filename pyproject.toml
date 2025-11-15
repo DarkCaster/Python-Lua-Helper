@@ -25,3 +25,10 @@ Repository = "https://github.com/DarkCaster/Perpetual.git"
 include = [
     "*.py",
 ]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "*.py",
+  "*.lua",
+  "/test_example",
+]
