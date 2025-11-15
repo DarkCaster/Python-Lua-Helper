@@ -9,8 +9,28 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: Build distribution
+  lua-windows-build:
+    name: Build lua for windows using mingw
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install packages
+        run: sudo apt-get install -y mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build LUA for windows i686
+        run: cd lua && ./download-lua.sh && build-mingw-i686.sh
+
+      - name: Build LUA for windows x86_64
+        run: cd lua && ./download-lua.sh && build-mingw-x86_64.sh
+
+  package-build:
+    needs:
+    - package-build
+    - lua-mingw-build
+    name: Build python distribution
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +59,7 @@ jobs:
     name: Publish Python distribution to PyPI
     if: ${{ startsWith(github.event.ref, 'refs/tags/v') }}
     needs:
-    - build
+    - package-build
     runs-on: ubuntu-latest
 
     environment:
