@@ -10,7 +10,7 @@ on:
 
 jobs:
   lua-windows-build:
-    name: Build lua for windows using mingw
+    name: Build lua for windows
     runs-on: ubuntu-latest
 
     steps:
