@@ -3,7 +3,7 @@ set -e
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 arch=$(arch)
 
-pushd "$script_dir/build/lua-"*
+cd "$script_dir/build/lua-"*
 
 patch -p1 -i ../../build.patch
 
@@ -18,5 +18,3 @@ make \
 
 x86_64-linux-gnu-strip --strip-unneeded src/lua
 cp src/lua ../../lua-linux-$arch
-
-popd
