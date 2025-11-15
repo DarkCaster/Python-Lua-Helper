@@ -21,6 +21,13 @@ keywords = ["lua", "configuration"]
 [project.urls]
 Repository = "https://github.com/DarkCaster/Perpetual.git"
 
+[tool.hatch.build.targets.sdist]
+include = [
+  "*.py",
+  "*.lua",
+  "/test_example",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = [
   "/*.py",
