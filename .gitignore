@@ -3,3 +3,4 @@
 /task*.md
 /__pycache__
 /lua/*.tar.gz
+/lua/build
