@@ -33,11 +33,12 @@ jobs:
           path: lua/lua-windows-*.exe
 
   package-build:
-    name: Build python distribution
+    name: Build packages
     needs:
     - prebuild-windows-binaries
     strategy:
       matrix:
+        pyver: [3.10, 3.11, 3.12, 3.13, 3.14, 3.15]
         arch: [x86_64, x86, aarch64, armv7]
     runs-on: ubuntu-latest
 
@@ -51,8 +52,7 @@ jobs:
           build-base
           curl
           bash
-          python3
-          py3-pip
+          uv
 
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -65,12 +65,12 @@ jobs:
         name: windows-binaries
         path: lua/
 
-    - name: Create build env
-      run: python -m venv /tmp/build_venv && . /tmp/build_venv/bin/activate && pip install --upgrade pip build
+    - name: Initialize python and venv
+      run: uv python install ${{ matrix.pyver }} && uv venv /tmp/build_venv --python ${{ matrix.pyver }} && uv pip install --upgrade --python /tmp/build_venv/bin/python build
       shell: alpine.sh {0}
 
     - name: Build package
-      run: . /tmp/build_venv/bin/activate && python -m build
+      run: uv run --python /tmp/build_venv/bin/python -m build
       shell: alpine.sh {0}
 
     - name: Store the distribution packages
