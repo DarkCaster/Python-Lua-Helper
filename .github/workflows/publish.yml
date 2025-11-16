@@ -27,6 +27,9 @@ jobs:
           curl
           python3
 
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
     - name: Create build env
       run: python -m venv ./venv && . ./venv/bin/activate && pip install --upgrade pip build
       shell: alpine.sh {0}
