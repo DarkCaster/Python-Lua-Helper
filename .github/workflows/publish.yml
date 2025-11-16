@@ -66,11 +66,11 @@ jobs:
         path: lua/
 
     - name: Create build env
-      run: python3 -m venv /tmp/build_venv && . /tmp/build_venv/bin/activate && pip install --upgrade pip build
+      run: python -m venv /tmp/build_venv && . /tmp/build_venv/bin/activate && pip install --upgrade pip build
       shell: alpine.sh {0}
 
     - name: Build package
-      run: . /tmp/build_venv/bin/activate && ls -la ./lua && python -m build
+      run: . /tmp/build_venv/bin/activate && python -m build
       shell: alpine.sh {0}
 
     - name: Store the distribution packages
