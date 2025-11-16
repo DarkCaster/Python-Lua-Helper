@@ -27,11 +27,11 @@ cd "$script_dir/build/$lua_version"
 patch -p1 -i "$script_dir/build.patch"
 make \
   PLAT=mingw \
-  CC="i686-w64-mingw32-gcc -std=gnu99" \
-  AR="i686-w64-mingw32-ar rc" \
-  RANLIB="i686-w64-mingw32-ranlib" \
+  CC="$compiler-gcc -std=gnu99" \
+  AR="$compiler-ar rc" \
+  RANLIB="$compiler-ranlib" \
   MYCFLAGS="-Os -fPIE -flto -fuse-linker-plugin -ffat-lto-objects" \
   MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects"
 
-i686-w64-mingw32-strip --strip-unneeded src/lua.exe
+$compiler-strip --strip-unneeded src/lua.exe
 cp src/lua.exe ../../lua-windows-$arch
