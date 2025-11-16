@@ -3,6 +3,7 @@
 /task*.md
 /__pycache__
 /venv
+/dist
 /lua/*.tar.gz
 /lua/build
 /lua/lua-linux-x86_64
