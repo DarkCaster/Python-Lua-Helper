@@ -26,6 +26,7 @@ jobs:
           build-base
           curl
           python3
+          git
 
     - name: Check out repository code
       uses: actions/checkout@v4
