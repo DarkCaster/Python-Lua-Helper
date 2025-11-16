@@ -32,6 +32,9 @@ include = [
 	"/lua/lua-*.exe",
 ]
 
+[tool.hatch.build.targets.sdist.force-include]
+"lua/lua-*.exe" = "lua"
+
 [tool.hatch.build.targets.wheel]
 include = [
 	"py_lua_helper.py",
