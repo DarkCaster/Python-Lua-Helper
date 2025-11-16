@@ -58,7 +58,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: package-*
+        name: package
         path: dist/
 
     - name: Publish distribution to PyPI
