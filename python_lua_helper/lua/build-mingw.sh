@@ -30,8 +30,8 @@ make \
   CC="$compiler-gcc -std=gnu99" \
   AR="$compiler-ar rc" \
   RANLIB="$compiler-ranlib" \
-  MYCFLAGS="-Os -fPIE -flto -fuse-linker-plugin -ffat-lto-objects" \
-  MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects"
+  MYCFLAGS="-Os -fPIE -flto=auto -fuse-linker-plugin -ffat-lto-objects" \
+  MYLDFLAGS="-Os -pie -static -flto=auto -fuse-linker-plugin -ffat-lto-objects"
 
 $compiler-strip --strip-unneeded src/lua.exe
 cp -v src/lua.exe "$script_dir/lua-windows-$arch"

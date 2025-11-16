@@ -100,8 +100,8 @@ class CustomBuildHook(BuildHookInterface):
                 lua_build_dir,
                 "make",
                 "PLAT=linux",
-                "MYCFLAGS=-Os -fPIE -flto -fuse-linker-plugin -ffat-lto-objects",
-                "MYLDFLAGS=-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects -Wl,-z,relro,-z,now",
+                "MYCFLAGS=-Os -fPIE -flto=auto -fuse-linker-plugin -ffat-lto-objects",
+                "MYLDFLAGS=-Os -pie -static -flto=auto -fuse-linker-plugin -ffat-lto-objects -Wl,-z,relro,-z,now",
             )
             # Strip binary
             print("Stripping Lua binary...")
