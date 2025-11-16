@@ -22,15 +22,14 @@ source = "vcs"
 
 [tool.hatch.build.targets.sdist]
 packages = ["python_lua_helper"]
-include = [
-	"/python_lua_helper/lua/lua-windows-*",
-]
 
 [tool.hatch.build.targets.wheel]
 packages = ["python_lua_helper"]
-include = [
-	"lua/lua.exe",
-	"lua/lua",
+exclude = [
+	"python_lua_helper/lua/*.sh",
+	"python_lua_helper/lua/*.patch",
+	"python_lua_helper/lua/*.sha256",
+	"python_lua_helper/lua/lua-*",
 ]
 
 [tool.hatch.build.targets.wheel.hooks.custom]
