@@ -59,6 +59,12 @@ jobs:
       with:
         persist-credentials: false
 
+    - name: Download windows lua binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: windows-binaries
+        path: lua/
+
     - name: Create build env
       run: python3 -m venv /tmp/build_venv && . /tmp/build_venv/bin/activate && pip install --upgrade pip build
       shell: alpine.sh {0}
