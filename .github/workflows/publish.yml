@@ -9,74 +9,35 @@ on:
     branches: [ master ]
 
 jobs:
-  prebuild-windows-binaries:
-    name: Prebuild windows binaries
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Install packages
-        run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential
-
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - name: Build LUA for windows i686
-        run: cd lua && ./download-lua.sh && ./build-mingw-i686.sh
-
-      - name: Build LUA for windows x86_64
-        run: cd lua && ./download-lua.sh && ./build-mingw-x86_64.sh
-
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-binaries
-          path: lua/lua-windows-*.exe
-
   package-build:
-    name: Build packages
-    needs:
-    - prebuild-windows-binaries
-    strategy:
-      matrix:
-        pyver: ["3.11", "3.12", "3.13", "3.14", "3.15"]
-        arch: [x86_64, x86, aarch64, armv7]
+    name: Build package
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup alpine chroot for ${{ matrix.arch }}
-      uses: jirutka/setup-alpine@v1
-      with:
-        branch: edge
-        arch: ${{ matrix.arch }}
-        packages: >
-          build-base
-          curl
-          bash
-          uv
+    - name: Install extra packages
+      run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential
 
     - name: Check out repository code
       uses: actions/checkout@v4
       with:
         persist-credentials: false
 
-    - name: Download windows lua binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-binaries
-        path: lua/
+    - name: Prebuild LUA for windows i686
+      run: cd lua && ./download-lua.sh && ./build-mingw-i686.sh
 
-    - name: Initialize python and venv
-      run: uv python install ${{ matrix.pyver }} && uv venv /tmp/build_venv --python ${{ matrix.pyver }} && uv pip install --upgrade --python /tmp/build_venv/bin/python build
-      shell: alpine.sh {0}
+    - name: Prebuild LUA for windows x86_64
+      run: cd lua && ./download-lua.sh && ./build-mingw-x86_64.sh
+
+    - name: Initialize venv
+      run: virtualenv /tmp/build_venv && /tmp/build_venv/bin/pip --require-virtualenv install --upgrade pip build
 
     - name: Build package
-      run: uv run --python /tmp/build_venv/bin/python -m build
-      shell: alpine.sh {0}
+      run: /tmp/build_venv/bin/python -m build --sdist
 
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
       with:
-        name: package-linux-${{ matrix.arch }}
+        name: package
         path: dist/
 
   publish-to-pypi:
