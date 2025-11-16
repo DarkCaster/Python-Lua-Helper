@@ -3,9 +3,7 @@
 /dist/
 /.perpetual
 /task*.md
-/lua/*.tar.gz
-/lua/build
-/lua/lua-linux-x86_64
-/lua/lua-linux-i686
-/lua/lua-windows-x86_64.exe
-/lua/lua-windows-i686.exe
+*.tar.gz
+**/build/
+**/lua-windows-x86_64
+**/lua-windows-i686
