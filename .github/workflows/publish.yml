@@ -54,7 +54,7 @@ jobs:
 
     steps:
     - name: Install extra packages
-      run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential python3-virtualenv
+      run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential python3
 
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -62,16 +62,16 @@ jobs:
         persist-credentials: false
 
     - name: Prebuild LUA for windows i686
-      run: cd lua && ./build-mingw.sh i686-w64-mingw32 i686
+      run: cd python_lua_helper/lua && ./build-mingw.sh i686-w64-mingw32 i686
 
     - name: Prebuild LUA for windows x86_64
-      run: cd lua && ./build-mingw.sh x86_64-w64-mingw32 x86_64
+      run: cd python_lua_helper/lua && ./build-mingw.sh x86_64-w64-mingw32 x86_64
 
     - name: Initialize venv
-      run: virtualenv /tmp/build_venv && /tmp/build_venv/bin/pip --require-virtualenv install --upgrade pip build
+      run: python -m venv ./venv && . ./venv/bin/activate && pip install --upgrade pip build
 
     - name: Build package
-      run: /tmp/build_venv/bin/python -m build --sdist
+      run: . ./venv/bin/activate && python -m build --sdist
 
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
