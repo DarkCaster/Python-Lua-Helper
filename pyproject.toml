@@ -33,7 +33,8 @@ include = [
 ]
 
 [tool.hatch.build.targets.sdist.force-include]
-"lua/lua-*.exe" = "lua"
+"lua/lua-windows-i686.exe" = "lua/lua-windows-i686.exe"
+"lua/lua-windows-x86_64.exe" = "lua/lua-windows-x86_64.exe"
 
 [tool.hatch.build.targets.wheel]
 include = [
