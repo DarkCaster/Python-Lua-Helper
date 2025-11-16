@@ -55,7 +55,7 @@ class CustomBuildHook(BuildHookInterface):
         current_os = platform.system().lower()
         arch = platform.machine().lower()
         print(f"OS: {current_os}, arch: {arch}")
-        lua_dir = os.path.join(os.path.dirname(__file__), "lua")
+        lua_dir = os.path.join(os.path.dirname(__file__), "python_lua_helper", "lua")
         # Build lua for linux
         lua_version = "5.4.8"
         lua_src = f"lua-{lua_version}.tar.gz"
@@ -115,25 +115,18 @@ class CustomBuildHook(BuildHookInterface):
             print(
                 f"Windows detected (architecture: {arch}) - selecting pre-built Lua binary..."
             )
-            try:
-                if arch in ["x86_64", "amd64"]:
-                    source_binary = os.path.join(lua_dir, "lua-windows-x86_64")
-                    target_binary = os.path.join(lua_dir, "lua.exe")
-                elif arch in ["i686", "x86"]:
-                    source_binary = os.path.join(lua_dir, "lua-windows-i686")
-                    target_binary = os.path.join(lua_dir, "lua.exe")
-                else:
-                    print(
-                        f"Warning: Unsupported Windows architecture '{arch}' - no Lua binary available"
-                    )
-                    return
-                if os.path.exists(source_binary):
-                    shutil.copy2(source_binary, target_binary)
-                    print(f"Copied {source_binary} to {target_binary}")
-                else:
-                    print(f"Warning: Source binary not found at {source_binary}")
-            except Exception as e:
-                print(f"Error copying Lua binary: {e}")
+            target_binary = os.path.join(lua_dir, "lua.exe")
+            if arch in ["x86_64", "amd64"]:
+                source_binary = os.path.join(lua_dir, "lua-windows-x86_64")
+            elif arch in ["i386", "i586", "i686", "x86"]:
+                source_binary = os.path.join(lua_dir, "lua-windows-i686")
+            else:
+                print(
+                    f"Warning: Unsupported Windows architecture '{arch}' - no Lua binary available"
+                )
+                return
+            shutil.copy2(source_binary, target_binary)
+            print(f"Copied {source_binary} to {target_binary}")
         else:
             print(
                 f"Warning: Unsupported operating system '{current_os}' - no Lua binary available"
