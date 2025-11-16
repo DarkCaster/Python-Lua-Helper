@@ -3,8 +3,8 @@ set -e
 compiler="$1"
 arch="$2"
 
-[[ -z $compiler ]] && echo "compiler prefix must be provided"
-[[ -z $arch ]] && echo "arch name must be provided"
+[[ -z $compiler ]] && echo "compiler prefix must be provided" && exit 1
+[[ -z $arch ]] && echo "arch name must be provided" && exit 1
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 
