@@ -21,9 +21,25 @@ Repository = "https://github.com/DarkCaster/Perpetual.git"
 include = ["py_lua_helper.py", "test_example.py"]
 
 [tool.hatch.build.targets.sdist]
-include = ["py_lua_helper.py", "test_example.py", "loader.lua", "/test_example"]
+include = [
+	"py_lua_helper.py",
+	"test_example.py",
+	"loader.lua",
+	"/test_example",
+	"/lua/*.sh",
+	"/lua/*.patch",
+	"/lua/*.sha256",
+	"/lua/lua-*.exe",
+]
 
 [tool.hatch.build.targets.wheel]
-include = ["py_lua_helper.py", "test_example.py", "loader.lua", "/test_example"]
+include = [
+	"py_lua_helper.py",
+	"test_example.py",
+	"loader.lua",
+	"/test_example",
+	"/lua/lua.exe",
+	"/lua/lua",
+]
 
 [tool.hatch.build.targets.wheel.hooks.custom]
