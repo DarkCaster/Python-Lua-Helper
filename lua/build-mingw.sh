@@ -23,7 +23,7 @@ mkdir -p "$script_dir/build"
 cd "$script_dir/build"
 tar xf "$script_dir/$lua_src"
 
-cd "$script_dir/build/$lua_version"
+cd "$script_dir/build/lua-$lua_version"
 patch -p1 -i "$script_dir/build.patch"
 make \
   PLAT=mingw \
@@ -34,4 +34,4 @@ make \
   MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects"
 
 $compiler-strip --strip-unneeded src/lua.exe
-cp src/lua.exe ../../lua-windows-$arch
+cp src/lua.exe "$script_dir/lua-windows-$arch"
