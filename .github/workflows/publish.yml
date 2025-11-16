@@ -36,7 +36,7 @@ jobs:
 
     - name: Install build dependencies
       run: python -m pip install --upgrade pip build
-      shell: alpine.sh {0}
+      shell: alpine.sh {0} -root
 
     - name: Build package
       run: python -m build
