@@ -29,12 +29,8 @@ include = [
 	"/lua/*.sh",
 	"/lua/*.patch",
 	"/lua/*.sha256",
-	"/lua/lua-*.exe",
+	"/lua/lua-windows-*",
 ]
-
-[tool.hatch.build.targets.sdist.force-include]
-"lua/lua-windows-i686.exe" = "lua/lua-windows-i686.exe"
-"lua/lua-windows-x86_64.exe" = "lua/lua-windows-x86_64.exe"
 
 [tool.hatch.build.targets.wheel]
 include = [
