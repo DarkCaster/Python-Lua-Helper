@@ -9,8 +9,40 @@ on:
     branches: [ master ]
 
 jobs:
-  package-build:
-    name: Build package
+  build-wheel-test:
+    name: Test building wheel packages on linux
+    strategy:
+      matrix:
+        arch: [x86_64, x86, aarch64, armv7]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup alpine chroot for ${{ matrix.arch }}
+      uses: jirutka/setup-alpine@v1
+      with:
+        branch: edge
+        arch: ${{ matrix.arch }}
+        packages: >
+          build-base
+          curl
+          python3
+
+    - name: Create build env
+      run: python -m venv ./venv && . ./venv/bin/activate && pip install --upgrade pip build
+      shell: alpine.sh {0}
+
+    - name: Build package
+      run: . ./venv/bin/activate && python -m build
+      shell: alpine.sh {0}
+
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-packages-linux-${{ matrix.arch }}
+        path: dist/
+
+  build-sdist:
+    name: Build sdist package
     runs-on: ubuntu-latest
 
     steps:
@@ -44,7 +76,8 @@ jobs:
     name: Publish Python distribution to PyPI
     if: ${{ startsWith(github.event.ref, 'refs/tags/v') }}
     needs:
-    - package-build
+    - build-sdist
+    - build-wheel-test
     runs-on: ubuntu-latest
 
     environment:
