@@ -34,4 +34,4 @@ make \
   MYLDFLAGS="-Os -pie -static -flto -fuse-linker-plugin -ffat-lto-objects"
 
 $compiler-strip --strip-unneeded src/lua.exe
-cp src/lua.exe "$script_dir/lua-windows-$arch"
+cp -v src/lua.exe "$script_dir/lua-windows-$arch"
