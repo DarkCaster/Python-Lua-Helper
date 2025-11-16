@@ -21,6 +21,7 @@ Repository = "https://github.com/DarkCaster/Perpetual.git"
 source = "vcs"
 
 [tool.hatch.build.targets.sdist]
+packages = ["python_lua_helper"]
 include = [
 	"python_lua_helper/*.lua",
 	"python_lua_helper/*.sh",
@@ -30,6 +31,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
+packages = ["python_lua_helper"]
 include = [
 	"python_lua_helper/*.lua",
 	"python_lua_helper/*.sh",
