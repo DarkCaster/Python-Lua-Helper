@@ -23,10 +23,10 @@ jobs:
         persist-credentials: false
 
     - name: Prebuild LUA for windows i686
-      run: cd lua && ./download-lua.sh && ./build-mingw-i686.sh
+      run: cd lua && ./build-mingw.sh i686-w64-mingw32 i686
 
     - name: Prebuild LUA for windows x86_64
-      run: cd lua && ./download-lua.sh && ./build-mingw-x86_64.sh
+      run: cd lua && ./build-mingw.sh x86_64-w64-mingw32 x86_64
 
     - name: Initialize venv
       run: virtualenv /tmp/build_venv && /tmp/build_venv/bin/pip --require-virtualenv install --upgrade pip build
