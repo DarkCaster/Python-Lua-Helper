@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-wheel-test:
-    name: Test building wheel packages on linux
+    name: Test build wheel on linux
     strategy:
       matrix:
         arch: [x86_64, x86, aarch64, armv7]
