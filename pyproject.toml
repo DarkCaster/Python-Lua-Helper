@@ -25,3 +25,5 @@ include = ["py_lua_helper.py", "test_example.py", "loader.lua", "/test_example"]
 
 [tool.hatch.build.targets.wheel]
 include = ["py_lua_helper.py", "test_example.py", "loader.lua", "/test_example"]
+
+[tool.hatch.build.targets.wheel.hooks.custom]
