@@ -9,8 +9,33 @@ on:
     branches: [ master ]
 
 jobs:
+  prebuild-windows-binaries:
+    name: Prebuild windows binaries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install packages
+        run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build LUA for windows i686
+        run: cd lua && ./download-lua.sh && ./build-mingw-i686.sh
+
+      - name: Build LUA for windows x86_64
+        run: cd lua && ./download-lua.sh && ./build-mingw-x86_64.sh
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binaries
+          path: lua/lua-windows-*.exe
+
   package-build:
     name: Build python distribution
+    needs:
+    - prebuild-windows-binaries
     strategy:
       matrix:
         arch: [x86_64, x86, aarch64, armv7]
