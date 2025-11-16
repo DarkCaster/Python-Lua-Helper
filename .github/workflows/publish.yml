@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Install extra packages
-      run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential
+      run: sudo apt-get install --no-install-recommends -y gcc-mingw-w64 mingw-w64-i686-dev mingw-w64-x86-64-dev build-essential python3-virtualenv
 
     - name: Check out repository code
       uses: actions/checkout@v4
