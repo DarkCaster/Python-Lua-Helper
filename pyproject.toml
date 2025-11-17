@@ -23,10 +23,10 @@ source = "vcs"
 [tool.hatch.build.targets.sdist]
 packages = ["python_lua_helper"]
 include = [
-	"build-mingw.sh",
-	"*.patch",
-	"*.sha256",
-	"lua-windows-*",
+	"/build-mingw.sh",
+	"/*.patch",
+	"/*.sha256",
+	"/lua-windows-*",
 ]
 
 [tool.hatch.build.targets.wheel]

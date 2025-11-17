@@ -60,14 +60,12 @@ class CustomBuildHook(BuildHookInterface):
         lua_version = "5.4.8"
         lua_src = f"lua-{lua_version}.tar.gz"
         lua_checksum = f"lua-{lua_version}.sha256"
-        root_dir = os.path.dirname(__file__)
-        package_dir = os.path.join(root_dir, "python_lua_helper")
+        package_dir = "python_lua_helper"
+        build_dir = "build"
         if current_os == "linux":
             print("Linux detected - building Lua from source...")
-            # Change to root directory
-            os.chdir(root_dir)
+            print(f"PWD={os.curdir}")
             # Clean/create build directory
-            build_dir = os.path.join(root_dir, "build")
             if os.path.exists(build_dir):
                 shutil.rmtree(build_dir)
             os.makedirs(build_dir, exist_ok=False)
@@ -75,7 +73,7 @@ class CustomBuildHook(BuildHookInterface):
             if not os.path.exists(lua_src):
                 print(f"Downloading {lua_src}")
                 self.run(
-                    root_dir,
+                    os.curdir,
                     "curl",
                     "-s",
                     "-L",
@@ -85,15 +83,13 @@ class CustomBuildHook(BuildHookInterface):
                 )
             # Check checksum
             print(f"Checking {lua_src}")
-            self.check_sha256(lua_src, os.path.join(root_dir, lua_checksum))
+            self.check_sha256(lua_src, lua_checksum)
             # Extract archive
             shutil.unpack_archive(lua_src, build_dir)
-            # Change to extracted Lua source directory
             lua_build_dir = os.path.join(build_dir, f"lua-{lua_version}")
-            os.chdir(lua_build_dir)
             # Apply patch
             print("Applying build patch...")
-            patch_file = os.path.join(root_dir, "build.patch")
+            patch_file = os.path.join("..", "..", "build.patch")
             self.run(lua_build_dir, "patch", "-p1", "-i", patch_file)
             # Build Lua with optimization flags
             print("Building Lua...")
@@ -118,9 +114,9 @@ class CustomBuildHook(BuildHookInterface):
             )
             target_binary = os.path.join(package_dir, "lua.exe")
             if arch in ["x86_64", "amd64"]:
-                source_binary = os.path.join(root_dir, "lua-windows-x86_64")
+                source_binary = "lua-windows-x86_64"
             elif arch in ["i386", "i586", "i686", "x86"]:
-                source_binary = os.path.join(root_dir, "lua-windows-i686")
+                source_binary = "lua-windows-i686"
             else:
                 print(
                     f"Warning: Unsupported Windows architecture '{arch}' - no Lua binary available"
