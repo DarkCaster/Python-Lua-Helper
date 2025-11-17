@@ -21,11 +21,11 @@ Repository = "https://github.com/DarkCaster/Perpetual.git"
 source = "vcs"
 
 [tool.hatch.build]
-include = [ "build-mingw.sh", "*.patch", "*.sha256", ]
+include = ["/build-mingw.sh", "/*.patch", "/*.sha256", "/lua-windows-*"]
 
 [tool.hatch.build.targets.sdist]
 packages = ["python_lua_helper"]
-include = [ "/lua-windows-*" ]
+include = ["/build-mingw.sh", "/*.patch", "/*.sha256", "/lua-windows-*"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["python_lua_helper"]
