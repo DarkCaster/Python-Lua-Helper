@@ -55,7 +55,7 @@ class CustomBuildHook(BuildHookInterface):
         # Get needed params
         current_os = platform.system().lower()
         arch = platform.machine().lower()
-        print(f"OS: {current_os}, arch: {arch}")
+        print(f"OS: {current_os}, arch: {arch}, PWD={os.curdir}")
         # Build lua for linux
         lua_version = "5.4.8"
         lua_src = f"lua-{lua_version}.tar.gz"
@@ -64,7 +64,6 @@ class CustomBuildHook(BuildHookInterface):
         build_dir = "build"
         if current_os == "linux":
             print("Linux detected - building Lua from source...")
-            print(f"PWD={os.curdir}")
             # Clean/create build directory
             if os.path.exists(build_dir):
                 shutil.rmtree(build_dir)
