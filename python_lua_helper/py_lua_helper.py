@@ -91,6 +91,7 @@ class PyLuaHelper:
             if not os.path.exists(self.temp_dir):
                 raise ValueError(f"Temp directory does not exist: {self.temp_dir}")
             self.temp_dir = os.path.abspath(self.temp_dir)
+            self.temp_dir = tempfile.mkdtemp(prefix="lua-helper-", dir=self.temp_dir)
         else:
             # Detect temp directory if not provided, platform dependent
             if os.name == "nt":  # Windows
