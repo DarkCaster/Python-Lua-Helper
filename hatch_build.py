@@ -85,7 +85,7 @@ class CustomBuildHook(BuildHookInterface):
                 )
             # Check checksum
             print(f"Checking {lua_src}")
-            self.check_sha256(lua_src, lua_checksum)
+            self.check_sha256(lua_src, os.path.join(root_dir, lua_checksum))
             # Extract archive
             shutil.unpack_archive(lua_src, build_dir)
             # Change to extracted Lua source directory
