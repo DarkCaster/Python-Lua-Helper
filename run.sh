@@ -6,7 +6,7 @@ venv_dir="$script_dir/venv"
 
 if [[ ! -d "$venv_dir" ]]; then
   python3 -m venv "$venv_dir"
-  "$venv_dir/bin/python3" -m pip --require-virtualenv install --upgrade pip build
+  "$venv_dir/bin/python" -m pip --require-virtualenv install --upgrade pip build
 fi
 
-"$venv_dir/bin/python3" "$@"
+"$venv_dir/bin/python" "$@"
