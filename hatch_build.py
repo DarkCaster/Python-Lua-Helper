@@ -55,7 +55,7 @@ class CustomBuildHook(BuildHookInterface):
         # Get needed params
         current_os = platform.system().lower()
         arch = platform.machine().lower()
-        print(f"OS: {current_os}, arch: {arch}, pwd: {os.curdir}")
+        print(f"OS: {current_os}, arch: {arch}")
         # Build lua for linux
         lua_version = "5.4.8"
         lua_src = f"lua-{lua_version}.tar.gz"
