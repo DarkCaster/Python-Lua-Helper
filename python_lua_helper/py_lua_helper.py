@@ -170,18 +170,29 @@ class PyLuaHelper:
                 raise ValueError(
                     f"Lua binary does not meet version requirements: {self.lua_binary}"
                 )
-
         # Probe for available Lua binaries
-        lua_hints = ["lua", "lua5.4", "lua54", "lua5.3", "lua53", "lua5.2", "lua52", "lua5.1", "lua51"]
+        lua_hints = [
+            "lua",
+            "lua5.4",
+            "lua54",
+            "lua5.3",
+            "lua53",
+            "lua5.2",
+            "lua52",
+            "lua5.1",
+            "lua51",
+        ]
+        bin_suffix = ""
+        if os.name == "nt":
+            bin_suffix = ".exe"
         for hint in lua_hints:
             try:
-                lua_path = shutil.which(hint)
+                lua_path = shutil.which(f"{hint}{bin_suffix}")
                 if lua_path and self._validate_lua_version(lua_path):
                     self.lua_binary = os.path.abspath(lua_path)
                     return
             except Exception:
                 continue
-
         raise RuntimeError("Failed to detect compatible Lua interpreter")
 
     def _validate_lua_version(self, lua_binary: str) -> bool:
