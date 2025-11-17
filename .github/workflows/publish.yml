@@ -62,10 +62,10 @@ jobs:
         persist-credentials: false
 
     - name: Prebuild LUA for windows i686
-      run: ./build-mingw.sh i686-w64-mingw32 i686
+      run: ./lua/build-mingw.sh i686-w64-mingw32 i686
 
     - name: Prebuild LUA for windows x86_64
-      run: ./build-mingw.sh x86_64-w64-mingw32 x86_64
+      run: ./lua/build-mingw.sh x86_64-w64-mingw32 x86_64
 
     - name: Initialize venv
       run: python -m venv ./venv && . ./venv/bin/activate && pip install --upgrade pip build
