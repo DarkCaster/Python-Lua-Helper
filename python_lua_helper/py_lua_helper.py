@@ -172,6 +172,7 @@ class PyLuaHelper:
                 )
         # Probe for available Lua binaries
         lua_hints = [
+            os.path.join(os.path.dirname(__file__), "lua"),
             "lua",
             "lua5.4",
             "lua54",
