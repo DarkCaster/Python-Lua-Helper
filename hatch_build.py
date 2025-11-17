@@ -75,7 +75,7 @@ class CustomBuildHook(BuildHookInterface):
             if not os.path.exists(lua_src):
                 print(f"Downloading {lua_src}")
                 self.run(
-                    build_dir,
+                    root_dir,
                     "curl",
                     "-s",
                     "-L",
