@@ -17,6 +17,7 @@ class CustomBuildHook(BuildHookInterface):
 
     def check_sha256(self, file_path, checksum_file):
         """Check file checksum from sha256 checksum file"""
+        print(f"Loading checksum file: {checksum_file}")
         # Read the expected checksum from the checksum file
         with open(checksum_file, "r") as f:
             checksum_line = f.read().strip()
