@@ -92,31 +92,65 @@ class PyLuaHelper:
                 raise ValueError(f"Temp directory does not exist: {self.temp_dir}")
             self.temp_dir = os.path.abspath(self.temp_dir)
         else:
-            # Try to detect temp directory
-            temp_dirs = [
-                os.environ.get("TMPDIR"),
-                "/tmp",
-                os.environ.get("XDG_RUNTIME_DIR"),
-            ]
-            for target in temp_dirs:
-                if target and os.path.exists(target):
+            # Detect temp directory if not provided, platform dependent
+            if os.name == "nt":  # Windows
+                # Windows temp directory selection logic
+                temp_dirs = [
+                    os.environ.get("TEMP"),
+                    os.environ.get("TMP"),
+                    os.environ.get("SYSTEMROOT") + "\\Temp",
+                    os.path.expanduser("~"),  # user profile directory
+                    "C:\\",
+                ]
+                # Remove None values from the list
+                temp_dirs = [d for d in temp_dirs if d is not None]
+                # Try to create temp directory in candidate locations
+                for base_dir in temp_dirs:
                     try:
-                        # Check if it's mounted on tmpfs
-                        result = subprocess.run(
-                            ["df", "-P", "-t", "tmpfs", target],
-                            capture_output=True,
-                            text=True,
+                        # Try to create temp directory in this location
+                        self.temp_dir = tempfile.mkdtemp(
+                            prefix="lua-helper-", dir=base_dir
                         )
-                        if result.returncode == 0:
-                            self.temp_dir = target
-                            break
-                    except Exception:
+                        break
+                    except (OSError, IOError):
+                        # Failed to create in this location, try next
                         continue
-            if not self.temp_dir:
-                self.temp_dir = "/tmp"
-
-        # Create unique temp directory
-        self.temp_dir = tempfile.mkdtemp(prefix="lua-helper-", dir=self.temp_dir)
+                else:
+                    # If we get here, all locations failed
+                    raise RuntimeError(
+                        "Unable to create temporary directory in any candidate location on Windows"
+                    )
+            else:
+                # Locations for linux and other OS:
+                temp_dirs = [
+                    os.environ.get("TMPDIR"),
+                    "/tmp",
+                    os.environ.get("XDG_RUNTIME_DIR"),
+                ]
+                # Remove None values from the list
+                temp_dirs = [d for d in temp_dirs if d is not None]
+                # Selection for linux and other OS, try to choose tmp dir mounted on tmpfs:
+                for target in temp_dirs:
+                    if target and os.path.exists(target):
+                        try:
+                            # Check if it's mounted on tmpfs
+                            result = subprocess.run(
+                                ["df", "-P", "-t", "tmpfs", target],
+                                capture_output=True,
+                                text=True,
+                            )
+                            if result.returncode == 0:
+                                self.temp_dir = target
+                                break
+                        except Exception:
+                            continue
+                if not self.temp_dir:
+                    self.temp_dir = "/tmp"
+                # Create unique temp directory
+                self.temp_dir = tempfile.mkdtemp(
+                    prefix="lua-helper-", dir=self.temp_dir
+                )
+        # Create data storage directories in selected temp dir
         self.meta_dir = os.path.join(self.temp_dir, "meta")
         self.data_dir = os.path.join(self.temp_dir, "data")
         os.makedirs(self.meta_dir)
