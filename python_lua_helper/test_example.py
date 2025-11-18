@@ -136,6 +136,22 @@ print(f"example.py: cfg['config.sub.mixed.4'] = {cfg.get('config.sub.mixed.4', '
 print(f"example.py: cfg['config.sub.mixed.key'] = {cfg.get('config.sub.mixed.key', 'NOT_FOUND')}")
 
 # Show extra cmdline parameters passed to lua script as loader.args table and assigned to config.sub.loader_args
+print("example.py: === test passing extra params (or cmdline args) into lua config ===")
 print(f"example.py: config.sub.loader_args indices sequence: {cfg.get_table_seq('config.sub.loader_args')}")
 for i in cfg.get_table_seq('config.sub.loader_args'):
     print(f"example.py: cfg['config.sub.loader_args.{i}'] = {cfg.get(f'config.sub.loader_args.{i}', 'NOT_FOUND')}")
+
+# Test typed get
+print("example.py: === test getting values with specific type from config.sub.types table ===")
+print(f"example.py: get bool value, no fallback: cfg['config.sub.types.b'] = {cfg.get_bool('config.sub.types.b')}")
+print(f"example.py: get missing bool value, fallback: cfg['config.sub.types.b1'] = {cfg.get_bool('config.sub.types.b1', False)}")
+print(f"example.py: get bool value from int, fallback: cfg['config.sub.types.i'] = {cfg.get_bool('config.sub.types.i', False)}")
+
+print(f"example.py: get int value, no fallback: cfg['config.sub.types.i'] = {cfg.get_int('config.sub.types.i')}")
+print(f"example.py: get missing int value, fallback: cfg['config.sub.types.i1'] = {cfg.get_int('config.sub.types.i1', -1)}")
+print(f"example.py: get missing int value, fallback from float num: cfg['config.sub.types.i1'] = {cfg.get_int('config.sub.types.i1', -2.6)}")
+print(f"example.py: get int value from bool, fallback: cfg['config.sub.types.b'] = {cfg.get_int('config.sub.types.b', -1)}")
+
+print(f"example.py: get float value, no fallback: cfg['config.sub.types.f'] = {cfg.get_float('config.sub.types.f')}")
+print(f"example.py: get missing float value, fallback: cfg['config.sub.types.f1'] = {cfg.get_float('config.sub.types.f1', -1.1)}")
+print(f"example.py: get float value from bool, fallback: cfg['config.sub.types.b'] = {cfg.get_float('config.sub.types.b', -1.1)}")

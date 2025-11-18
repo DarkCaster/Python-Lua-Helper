@@ -368,7 +368,10 @@ class PyLuaHelper:
     def get_int(self, key: str, default: int = None) -> int:
         """Get variable value as integer with defaults on type conversion error."""
         try:
-            return int(self._variables.get(key, default))
+            value_type = self.get_type(key)
+            if value_type == "number":
+                return int(self._variables.get(key, default))
+            raise ValueError(f"Invalid value type: {value_type}")
         except ValueError:
             if default is not None:
                 return int(default)
@@ -377,10 +380,25 @@ class PyLuaHelper:
     def get_float(self, key: str, default: float = None) -> float:
         """Get variable value as float with defaults on type conversion error."""
         try:
-            return float(self._variables.get(key, default))
+            value_type = self.get_type(key)
+            if value_type == "number":
+                return float(self._variables.get(key, default))
+            raise ValueError(f"Invalid value type: {value_type}")
         except ValueError:
             if default is not None:
                 return float(default)
+            raise
+
+    def get_bool(self, key: str, default: bool = None) -> bool:
+        """Get variable value as bool with defaults on type conversion error."""
+        try:
+            value_type = self.get_type(key)
+            if value_type == "boolean":
+                return bool(self._variables.get(key, default))
+            raise ValueError(f"Invalid value type: {value_type}")
+        except ValueError:
+            if default is not None:
+                return bool(default)
             raise
 
     def get_table_start(self, key: str) -> int:
