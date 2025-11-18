@@ -24,7 +24,8 @@ config =
 		extra_1=loader.extra[1],
 		extra_2=loader.extra[2],
 		loader_args=loader.args,
-		mixed={ 1, "text", true, key="test_value" }
+		mixed={ 1, "text", true, key="test_value" },
+		empty_table={ }
 	},
 	paths=
 	{

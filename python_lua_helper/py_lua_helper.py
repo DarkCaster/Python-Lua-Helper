@@ -299,7 +299,6 @@ class PyLuaHelper:
                     self._variables[filename] = f.read().decode(
                         "utf-8", errors="ignore"
                     )
-
                 # Read metadata
                 with open(os.path.join(self.meta_dir, filename), "rb") as f:
                     self._metadata[filename] = f.read().decode("utf-8", errors="ignore")
@@ -343,8 +342,27 @@ class PyLuaHelper:
         """Get list of (name, value) tuples."""
         return list(self._variables.items())
 
+    def is_table(self, key: str) -> bool:
+        """Check variable is a table, return true or false"""
+        if key in self._metadata:
+            match = re.match(r"^table.*", self._metadata[key])
+            if match:
+                return True
+        return False
+
+    def get_type(self, key: str) -> str:
+        """Get variable type"""
+        if self.is_table(key):
+            return "table"
+        if key in self._metadata and re.match(r"^string.*", self._metadata[key]):
+            return "string"
+        return self._metadata.get(key, "none")
+
     def get(self, key: str, default: str = None) -> str:
         """Get variable value with default."""
+        # cannot get value of table directly, so, return default
+        if self.is_table(key):
+            return default
         return self._variables.get(key, default)
 
     def get_int(self, key: str, default: int = None) -> int:
