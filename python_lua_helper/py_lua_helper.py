@@ -401,6 +401,13 @@ class PyLuaHelper:
                 return bool(default)
             raise
 
+    def get_list(self, key: str) -> List:
+        """Get indexed elements of table as list of strings if variable is a table and indexed (keyless) elements present, empty list if no elements present or variable is not a table"""
+        result = []
+        for i in self.get_table_seq(key):
+            result.append(self.get(f"{key}.{i}"))
+        return result
+
     def get_table_start(self, key: str) -> int:
         """Get start indexed element index of table if variable is a table and indexed (keyless) elements present, 0 if no indexed elements present"""
         if key in self._metadata:

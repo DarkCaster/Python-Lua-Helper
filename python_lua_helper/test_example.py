@@ -141,6 +141,9 @@ print(f"example.py: config.sub.loader_args indices sequence: {cfg.get_table_seq(
 for i in cfg.get_table_seq('config.sub.loader_args'):
     print(f"example.py: cfg['config.sub.loader_args.{i}'] = {cfg.get(f'config.sub.loader_args.{i}', 'NOT_FOUND')}")
 
+print("example.py: === getting extra params (or cmdline args) as list ===")
+print(f"example.py: {cfg.get_list('config.sub.loader_args')}")
+
 # Test typed get
 print("example.py: === test getting values with specific type from config.sub.types table ===")
 print(f"example.py: get bool value, no fallback: cfg['config.sub.types.b'] = {cfg.get_bool('config.sub.types.b')}")
