@@ -147,7 +147,7 @@ print(f"example.py: {cfg.get_list('config.sub.loader_args')}")
 # Test typed get
 print("example.py: === test getting values with specific type from config.sub.types table ===")
 print(f"example.py: get bool value, no fallback: cfg['config.sub.types.b'] = {cfg.get_bool('config.sub.types.b')}")
-print(f"example.py: get missing bool value, fallback: cfg['config.sub.types.b1'] = {cfg.get_bool('config.sub.types.b1', False)}")
+print(f"example.py: get missing bool value, fallback: cfg['config.sub.types.b1'] = {cfg.get_bool('config.sub.types.b1', True)}")
 print(f"example.py: get bool value from int, fallback: cfg['config.sub.types.i'] = {cfg.get_bool('config.sub.types.i', False)}")
 
 print(f"example.py: get int value, no fallback: cfg['config.sub.types.i'] = {cfg.get_int('config.sub.types.i')}")

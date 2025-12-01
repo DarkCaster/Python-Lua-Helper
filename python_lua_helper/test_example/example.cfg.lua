@@ -27,7 +27,7 @@ config =
 		mixed={ 1, "text", true, key="test_value" },
 		empty_table={ },
 		types = {
-			b=true,
+			b=false,
 			i=100,
 			f=99.99,
 			s="string value",

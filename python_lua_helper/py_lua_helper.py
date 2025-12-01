@@ -394,7 +394,12 @@ class PyLuaHelper:
         try:
             value_type = self.get_type(key)
             if value_type == "boolean":
-                return bool(self._variables.get(key, default))
+                value = self._variables.get(key)
+                if value == "true":
+                    value = True
+                elif value == "false":
+                    value = False
+                return bool(value)
             raise ValueError(f"Invalid value type: {value_type}")
         except ValueError:
             if default is not None:
