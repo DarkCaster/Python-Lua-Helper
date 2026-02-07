@@ -151,9 +151,9 @@ class PyLuaHelper:
                     prefix="lua-helper-", dir=self.temp_dir
                 )
         # Define temp files for data exchange
-        self.meta_file = os.path.join(self.temp_dir, "meta.tmp")
-        self.data_file = os.path.join(self.temp_dir, "data.tmp")
-        self.index_file = os.path.join(self.temp_dir, "index.tmp")
+        self._meta_file = os.path.join(self.temp_dir, "meta.tmp")
+        self._data_file = os.path.join(self.temp_dir, "data.tmp")
+        self._index_file = os.path.join(self.temp_dir, "index.tmp")
 
     def _detect_lua_binary(self):
         """Detect appropriate Lua binary based on version requirements."""
@@ -324,9 +324,9 @@ class PyLuaHelper:
     def _parse_results(self):
         """Parse exported variables from temporary files."""
         # Read exported data
-        exports = self._parse_text_fields(self.index_file)
-        meta = self._parse_text_fields(self.meta_file)
-        data = self._parse_text_fields(self.data_file)
+        exports = self._parse_text_fields(self._index_file)
+        meta = self._parse_text_fields(self._meta_file)
+        data = self._parse_text_fields(self._data_file)
 
         for index, value in enumerate(exports):
             self._variables[value] = data[index]
