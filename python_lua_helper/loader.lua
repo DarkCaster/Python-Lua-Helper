@@ -242,19 +242,27 @@ if loader.postexec ~= nil then
  dofile(loader.postexec)
 end
 
-loader.dataout=loader.tmpdir..loader.pathseparator.."data"..loader.pathseparator
-loader.metaout=loader.tmpdir..loader.pathseparator.."meta"..loader.pathseparator
+loader.dataout=loader.tmpdir..loader.pathseparator.."data.tmp"
+loader.metaout=loader.tmpdir..loader.pathseparator.."meta.tmp"
+loader.indexout=loader.tmpdir..loader.pathseparator.."index.tmp"
+
+target_data = assert(io.open(loader.dataout, "w"))
+target_meta = assert(io.open(loader.metaout, "w"))
+target_index = assert(io.open(loader.indexout, "w"))
 
 function loader_data_export(name,value)
- local target = assert(io.open(loader.dataout..name, "w"))
- target:write(string.format("%s",tostring(value)))
- target:close()
+ -- write value to target_data
+ target_data:write(string.format("%s",tostring(value)))
+ target_data:write("\0".."\0".."\0")
 end
 
 function loader_meta_export(name,value)
- local target = assert(io.open(loader.metaout..name, "w"))
- target:write(string.format("%s",tostring(value)))
- target:close()
+ -- write name to target_index
+ target_index:write(name)
+ target_index:write("\0".."\0".."\0")
+ -- write value to target_meta
+ target_meta:write(string.format("%s",tostring(value)))
+ target_meta:write("\0".."\0".."\0")
 end
 
 function loader_node_export(name,node)
@@ -309,3 +317,7 @@ for index,value in ipairs(loader.export) do
     loader_node_export(value,target)
   end
 end
+
+target_index:close()
+target_meta:close()
+target_data:close()
