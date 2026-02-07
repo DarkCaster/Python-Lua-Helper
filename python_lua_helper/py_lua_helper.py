@@ -49,7 +49,7 @@ class PyLuaHelper:
         self._export_vars = export_vars or []
         self._pre_script = pre_script
         self._post_script = post_script
-        self.extra_strings = extra_strings or []
+        self._extra_strings = extra_strings or []
         self.work_dir = work_dir or os.path.dirname(self._lua_config_script)
         self.temp_dir = temp_dir
         self.min_lua_version = min_lua_version or "5.1.0"
@@ -240,7 +240,7 @@ class PyLuaHelper:
         if self._post_script:
             cmd.extend(["-post", self._post_script])
         # Add extra strings
-        for extra in self.extra_strings:
+        for extra in self._extra_strings:
             cmd.extend(["-ext", extra])
         # Add work directory
         cmd.extend(["-w", self.work_dir])
