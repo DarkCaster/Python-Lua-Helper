@@ -8,7 +8,7 @@ arch="$2"
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 
-lua_version="5.4.8"
+lua_version="5.5.0"
 lua_src="lua-$lua_version.tar.gz"
 lua_checksum="lua-$lua_version.sha256"
 
