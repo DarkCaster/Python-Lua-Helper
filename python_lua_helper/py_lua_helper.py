@@ -46,7 +46,7 @@ class PyLuaHelper:
             lua_args: Additional arguments to pass to Lua script (will be placed to loader.args)
         """
         self._lua_config_script = os.path.abspath(lua_config_script)
-        self.export_vars = export_vars or []
+        self._export_vars = export_vars or []
         self.pre_script = pre_script
         self.post_script = post_script
         self.extra_strings = extra_strings or []
@@ -231,7 +231,7 @@ class PyLuaHelper:
         # Add configuration parameters
         cmd.extend(["-c", self._lua_config_script])
         # Add export variables
-        for var in self.export_vars:
+        for var in self._export_vars:
             cmd.extend(["-e", var])
         # Add pre script
         if self.pre_script:
