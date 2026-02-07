@@ -54,9 +54,9 @@ class PyLuaHelper:
         self._temp_dir = temp_dir
         self._min_lua_version = min_lua_version or "5.1.0"
         self._max_lua_version = max_lua_version or "5.5.999"
-        self.lua_binary = lua_binary
-        self.lua_args = lua_args or []
-        self.lua_actual_version = None
+        self._lua_binary = lua_binary
+        self._lua_args = lua_args or []
+        self._lua_actual_version = None
         # Validate required files exist
         if not os.path.exists(self._lua_config_script):
             raise FileNotFoundError(
@@ -69,7 +69,7 @@ class PyLuaHelper:
         self._setup_temp_dir()
         try:
             # Detect Lua binary
-            if not self.lua_binary:
+            if not self._lua_binary:
                 self._detect_lua_binary()
             # Execute the Lua loader
             self._run_lua_loader()
@@ -152,16 +152,16 @@ class PyLuaHelper:
 
     def _detect_lua_binary(self):
         """Detect appropriate Lua binary based on version requirements."""
-        if self.lua_binary:
+        if self._lua_binary:
             # Use explicitly provided binary
-            if not os.path.exists(self.lua_binary):
-                raise FileNotFoundError(f"Lua binary not found: {self.lua_binary}")
-            if self._validate_lua_version(self.lua_binary):
-                self.lua_binary = os.path.abspath(self.lua_binary)
+            if not os.path.exists(self._lua_binary):
+                raise FileNotFoundError(f"Lua binary not found: {self._lua_binary}")
+            if self._validate_lua_version(self._lua_binary):
+                self._lua_binary = os.path.abspath(self._lua_binary)
                 return
             else:
                 raise ValueError(
-                    f"Lua binary does not meet version requirements: {self.lua_binary}"
+                    f"Lua binary does not meet version requirements: {self._lua_binary}"
                 )
         # Probe for available Lua binaries
         lua_hints = [
@@ -183,7 +183,7 @@ class PyLuaHelper:
             try:
                 lua_path = shutil.which(f"{hint}{bin_suffix}")
                 if lua_path and self._validate_lua_version(lua_path):
-                    self.lua_binary = os.path.abspath(lua_path)
+                    self._lua_binary = os.path.abspath(lua_path)
                     return
             except Exception:
                 continue
@@ -210,7 +210,7 @@ class PyLuaHelper:
                 if not (min_v <= act <= max_v):
                     return False
             # Store the actual version if validation passes
-            self.lua_actual_version = act_version
+            self._lua_actual_version = act_version
             return True
         except Exception:
             return False
@@ -218,14 +218,14 @@ class PyLuaHelper:
     def _run_lua_loader(self):
         """Execute the Lua loader script with appropriate parameters."""
         # Build command line arguments
-        cmd = [self.lua_binary, os.path.join(os.path.dirname(__file__), "loader.lua")]
+        cmd = [self._lua_binary, os.path.join(os.path.dirname(__file__), "loader.lua")]
         # Add version info
         cmd.extend(
             [
                 "-ver",
-                str(self.lua_actual_version[0]),
-                str(self.lua_actual_version[1]),
-                str(self.lua_actual_version[2]),
+                str(self._lua_actual_version[0]),
+                str(self._lua_actual_version[1]),
+                str(self._lua_actual_version[2]),
             ]
         )
         # Add configuration parameters
@@ -249,7 +249,7 @@ class PyLuaHelper:
         # Add -- separator
         cmd.append("--")
         # Add additional Lua arguments
-        cmd.extend(self.lua_args)
+        cmd.extend(self._lua_args)
         # Execute the command
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
