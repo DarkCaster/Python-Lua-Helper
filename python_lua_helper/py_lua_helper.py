@@ -45,12 +45,12 @@ class PyLuaHelper:
             lua_binary: Path to specific Lua binary (optional, will be auto-detected if not provided)
             lua_args: Additional arguments to pass to Lua script (will be placed to loader.args)
         """
-        self.lua_config_script = os.path.abspath(lua_config_script)
+        self._lua_config_script = os.path.abspath(lua_config_script)
         self.export_vars = export_vars or []
         self.pre_script = pre_script
         self.post_script = post_script
         self.extra_strings = extra_strings or []
-        self.work_dir = work_dir or os.path.dirname(self.lua_config_script)
+        self.work_dir = work_dir or os.path.dirname(self._lua_config_script)
         self.temp_dir = temp_dir
         self.min_lua_version = min_lua_version or "5.1.0"
         self.max_lua_version = max_lua_version or "5.4.999"
@@ -58,9 +58,9 @@ class PyLuaHelper:
         self.lua_args = lua_args or []
         self.lua_actual_version = None
         # Validate required files exist
-        if not os.path.exists(self.lua_config_script):
+        if not os.path.exists(self._lua_config_script):
             raise FileNotFoundError(
-                f"Main config file not found: {self.lua_config_script}"
+                f"Main config file not found: {self._lua_config_script}"
             )
         # Initialize internal state
         self._variables: Dict[str, str] = {}
@@ -229,7 +229,7 @@ class PyLuaHelper:
             ]
         )
         # Add configuration parameters
-        cmd.extend(["-c", self.lua_config_script])
+        cmd.extend(["-c", self._lua_config_script])
         # Add export variables
         for var in self.export_vars:
             cmd.extend(["-e", var])
