@@ -1,7 +1,7 @@
-diff -uprN lua-5.4.8.old/src/luaconf.h lua-5.4.8/src/luaconf.h
---- lua-5.4.8.old/src/luaconf.h	2025-05-22 00:09:16.000000000 +0300
-+++ lua-5.4.8/src/luaconf.h	2025-11-15 14:39:42.772620831 +0300
-@@ -53,26 +53,22 @@
+diff -uprN lua-5.5.0.old/src/luaconf.h lua-5.5.0/src/luaconf.h
+--- lua-5.5.0.old/src/luaconf.h	2025-12-15 13:44:40.000000000 +0300
++++ lua-5.5.0/src/luaconf.h	2026-02-08 02:46:07.116399878 +0300
+@@ -53,7 +53,6 @@
  
  
  #if defined(LUA_USE_WINDOWS)
@@ -9,16 +9,19 @@ diff -uprN lua-5.4.8.old/src/luaconf.h lua-5.4.8/src/luaconf.h
  #define LUA_USE_C89	/* broadly, Windows is C89 */
  #endif
  
- 
+@@ -69,21 +68,18 @@
+ */
  #if defined(LUA_USE_LINUX)
  #define LUA_USE_POSIX
 -#define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
+ #define LUA_READLINELIB		"libreadline.so"
  #endif
  
  
  #if defined(LUA_USE_MACOSX)
  #define LUA_USE_POSIX
--#define LUA_USE_DLOPEN		/* MacOS does not need -ldl */
+-#define LUA_USE_DLOPEN		/* macOS does not need -ldl */
+ #define LUA_READLINELIB		"libedit.dylib"
  #endif
  
  
@@ -28,25 +31,21 @@ diff -uprN lua-5.4.8.old/src/luaconf.h lua-5.4.8/src/luaconf.h
  #endif
  
  
-diff -uprN lua-5.4.8.old/src/Makefile lua-5.4.8/src/Makefile
---- lua-5.4.8.old/src/Makefile	2023-02-03 13:43:14.000000000 +0300
-+++ lua-5.4.8/src/Makefile	2025-11-15 17:18:54.952610183 +0300
-@@ -123,18 +123,17 @@ ios:
- Linux linux:	linux-noreadline
+diff -uprN lua-5.5.0.old/src/Makefile lua-5.5.0/src/Makefile
+--- lua-5.5.0.old/src/Makefile	2025-07-07 03:19:14.000000000 +0300
++++ lua-5.5.0/src/Makefile	2026-02-08 02:51:17.686297782 +0300
+@@ -121,15 +121,14 @@ ios:
+ 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_IOS"
  
- linux-noreadline:
+ Linux linux:
 -	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX" SYSLIBS="-Wl,-E -ldl"
 +	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX" SYSLIBS=""
- 
- linux-readline:
--	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX -DLUA_USE_READLINE" SYSLIBS="-Wl,-E -ldl -lreadline"
-+	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX -DLUA_USE_READLINE" SYSLIBS="-Wl,-E -lreadline"
  
  Darwin macos macosx:
  	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_MACOSX -DLUA_USE_READLINE" SYSLIBS="-lreadline"
  
  mingw:
--	$(MAKE) "LUA_A=lua54.dll" "LUA_T=lua.exe" \
+-	$(MAKE) "LUA_A=lua55.dll" "LUA_T=lua.exe" \
 -	"AR=$(CC) -shared -o" "RANLIB=strip --strip-unneeded" \
 -	"SYSCFLAGS=-DLUA_BUILD_AS_DLL" "SYSLIBS=" "SYSLDFLAGS=-s" lua.exe
 +	$(MAKE) "LUA_T=lua.exe" \
