@@ -52,8 +52,8 @@ class PyLuaHelper:
         self._extra_strings = extra_strings or []
         self._work_dir = work_dir or os.path.dirname(self._lua_config_script)
         self._temp_dir = temp_dir
-        self.min_lua_version = min_lua_version or "5.1.0"
-        self.max_lua_version = max_lua_version or "5.4.999"
+        self._min_lua_version = min_lua_version or "5.1.0"
+        self._max_lua_version = max_lua_version or "5.5.999"
         self.lua_binary = lua_binary
         self.lua_args = lua_args or []
         self.lua_actual_version = None
@@ -201,8 +201,8 @@ class PyLuaHelper:
             if not version_match:
                 return False
             act_version = [int(x) for x in version_match.groups()]
-            min_version = [int(x) for x in self.min_lua_version.split(".")]
-            max_version = [int(x) for x in self.max_lua_version.split(".")]
+            min_version = [int(x) for x in self._min_lua_version.split(".")]
+            max_version = [int(x) for x in self._max_lua_version.split(".")]
             # Check version range
             for i, (act, min_v, max_v) in enumerate(
                 zip(act_version, min_version, max_version)
