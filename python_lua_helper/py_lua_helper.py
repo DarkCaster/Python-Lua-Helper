@@ -50,8 +50,8 @@ class PyLuaHelper:
         self._pre_script = pre_script
         self._post_script = post_script
         self._extra_strings = extra_strings or []
-        self.work_dir = work_dir or os.path.dirname(self._lua_config_script)
-        self.temp_dir = temp_dir
+        self._work_dir = work_dir or os.path.dirname(self._lua_config_script)
+        self._temp_dir = temp_dir
         self.min_lua_version = min_lua_version or "5.1.0"
         self.max_lua_version = max_lua_version or "5.4.999"
         self.lua_binary = lua_binary
@@ -81,11 +81,11 @@ class PyLuaHelper:
 
     def _setup_temp_dir(self):
         """Setup temporary directory for storing exported variables."""
-        if self.temp_dir:
-            if not os.path.exists(self.temp_dir):
-                raise ValueError(f"Temp directory does not exist: {self.temp_dir}")
-            self.temp_dir = os.path.abspath(self.temp_dir)
-            self.temp_dir = tempfile.mkdtemp(prefix="lua-helper-", dir=self.temp_dir)
+        if self._temp_dir:
+            if not os.path.exists(self._temp_dir):
+                raise ValueError(f"Temp directory does not exist: {self._temp_dir}")
+            self._temp_dir = os.path.abspath(self._temp_dir)
+            self._temp_dir = tempfile.mkdtemp(prefix="lua-helper-", dir=self._temp_dir)
         else:
             # Detect temp directory if not provided, platform dependent
             if os.name == "nt":  # Windows
@@ -103,7 +103,7 @@ class PyLuaHelper:
                 for base_dir in temp_dirs:
                     try:
                         # Try to create temp directory in this location
-                        self.temp_dir = tempfile.mkdtemp(
+                        self._temp_dir = tempfile.mkdtemp(
                             prefix="lua-helper-", dir=base_dir
                         )
                         break
@@ -135,20 +135,20 @@ class PyLuaHelper:
                                 text=True,
                             )
                             if result.returncode == 0:
-                                self.temp_dir = target
+                                self._temp_dir = target
                                 break
                         except Exception:
                             continue
-                if not self.temp_dir:
-                    self.temp_dir = "/tmp"
+                if not self._temp_dir:
+                    self._temp_dir = "/tmp"
                 # Create unique temp directory
-                self.temp_dir = tempfile.mkdtemp(
-                    prefix="lua-helper-", dir=self.temp_dir
+                self._temp_dir = tempfile.mkdtemp(
+                    prefix="lua-helper-", dir=self._temp_dir
                 )
         # Define temp files for data exchange
-        self._meta_file = os.path.join(self.temp_dir, "meta.tmp")
-        self._data_file = os.path.join(self.temp_dir, "data.tmp")
-        self._index_file = os.path.join(self.temp_dir, "index.tmp")
+        self._meta_file = os.path.join(self._temp_dir, "meta.tmp")
+        self._data_file = os.path.join(self._temp_dir, "data.tmp")
+        self._index_file = os.path.join(self._temp_dir, "index.tmp")
 
     def _detect_lua_binary(self):
         """Detect appropriate Lua binary based on version requirements."""
@@ -243,9 +243,9 @@ class PyLuaHelper:
         for extra in self._extra_strings:
             cmd.extend(["-ext", extra])
         # Add work directory
-        cmd.extend(["-w", self.work_dir])
+        cmd.extend(["-w", self._work_dir])
         # Add temp directory
-        cmd.extend(["-t", self.temp_dir])
+        cmd.extend(["-t", self._temp_dir])
         # Add -- separator
         cmd.append("--")
         # Add additional Lua arguments
@@ -314,9 +314,9 @@ class PyLuaHelper:
 
     def _cleanup(self):
         """Clean up temporary directory."""
-        if self.temp_dir and os.path.exists(self.temp_dir):
+        if self._temp_dir and os.path.exists(self._temp_dir):
             try:
-                shutil.rmtree(self.temp_dir)
+                shutil.rmtree(self._temp_dir)
             except Exception:
                 pass
 
