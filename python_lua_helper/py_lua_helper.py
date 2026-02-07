@@ -57,32 +57,27 @@ class PyLuaHelper:
         self.lua_binary = lua_binary
         self.lua_args = lua_args or []
         self.lua_actual_version = None
-
         # Validate required files exist
         if not os.path.exists(self.lua_config_script):
             raise FileNotFoundError(
                 f"Main config file not found: {self.lua_config_script}"
             )
-
         # Initialize internal state
         self._variables: Dict[str, str] = {}
         self._metadata: Dict[str, str] = {}
-
         # Initialize temporary directory
         self._setup_temp_dir()
-
-        # Detect Lua binary
-        if not self.lua_binary:
-            self._detect_lua_binary()
-
-        # Execute the Lua loader
-        self._run_lua_loader()
-
-        # Parse results
-        self._parse_results()
-
-        # Clean up temp directory
-        self._cleanup()
+        try:
+            # Detect Lua binary
+            if not self.lua_binary:
+                self._detect_lua_binary()
+            # Execute the Lua loader
+            self._run_lua_loader()
+            # Parse results
+            self._parse_results()
+        finally:
+            # Clean up temp directory
+            self._cleanup()
 
     def _setup_temp_dir(self):
         """Setup temporary directory for storing exported variables."""
@@ -205,18 +200,15 @@ class PyLuaHelper:
             )
             if not version_match:
                 return False
-
             act_version = [int(x) for x in version_match.groups()]
             min_version = [int(x) for x in self.min_lua_version.split(".")]
             max_version = [int(x) for x in self.max_lua_version.split(".")]
-
             # Check version range
             for i, (act, min_v, max_v) in enumerate(
                 zip(act_version, min_version, max_version)
             ):
                 if not (min_v <= act <= max_v):
                     return False
-
             # Store the actual version if validation passes
             self.lua_actual_version = act_version
             return True
@@ -227,7 +219,6 @@ class PyLuaHelper:
         """Execute the Lua loader script with appropriate parameters."""
         # Build command line arguments
         cmd = [self.lua_binary, os.path.join(os.path.dirname(__file__), "loader.lua")]
-
         # Add version info
         cmd.extend(
             [
@@ -237,38 +228,28 @@ class PyLuaHelper:
                 str(self.lua_actual_version[2]),
             ]
         )
-
         # Add configuration parameters
         cmd.extend(["-c", self.lua_config_script])
-
         # Add export variables
         for var in self.export_vars:
             cmd.extend(["-e", var])
-
         # Add pre script
         if self.pre_script:
             cmd.extend(["-pre", self.pre_script])
-
         # Add post script
         if self.post_script:
             cmd.extend(["-post", self.post_script])
-
         # Add extra strings
         for extra in self.extra_strings:
             cmd.extend(["-ext", extra])
-
         # Add work directory
         cmd.extend(["-w", self.work_dir])
-
         # Add temp directory
         cmd.extend(["-t", self.temp_dir])
-
         # Add -- separator
         cmd.append("--")
-
         # Add additional Lua arguments
         cmd.extend(self.lua_args)
-
         # Execute the command
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
@@ -327,7 +308,6 @@ class PyLuaHelper:
         exports = self._parse_text_fields(self._index_file)
         meta = self._parse_text_fields(self._meta_file)
         data = self._parse_text_fields(self._data_file)
-
         for index, value in enumerate(exports):
             self._variables[value] = data[index]
             self._metadata[value] = meta[index]
