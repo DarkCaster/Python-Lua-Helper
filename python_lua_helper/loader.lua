@@ -250,19 +250,28 @@ target_data = assert(io.open(loader.dataout, "w"))
 target_meta = assert(io.open(loader.metaout, "w"))
 target_index = assert(io.open(loader.indexout, "w"))
 
+target_data:write("start")
+target_data:write("\255".."\000")
+
+target_meta:write("start")
+target_meta:write("\255".."\000")
+
+target_index:write("start")
+target_index:write("\255".."\000")
+
 function loader_data_export(name,value)
  -- write value to target_data
  target_data:write(string.format("%s",tostring(value)))
- target_data:write("\0".."\0".."\0")
+ target_data:write("\255".."\000")
 end
 
 function loader_meta_export(name,value)
  -- write name to target_index
  target_index:write(name)
- target_index:write("\0".."\0".."\0")
+ target_index:write("\255".."\000")
  -- write value to target_meta
  target_meta:write(string.format("%s",tostring(value)))
- target_meta:write("\0".."\0".."\0")
+ target_meta:write("\255".."\000")
 end
 
 function loader_node_export(name,node)
