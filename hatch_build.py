@@ -57,7 +57,7 @@ class CustomBuildHook(BuildHookInterface):
         arch = platform.machine().lower()
         print(f"OS: {current_os}, arch: {arch}")
         # Lua build defines
-        lua_version = "5.4.8"
+        lua_version = "5.5.0"
         lua_src = f"lua-{lua_version}.tar.gz"
         lua_checksum = f"lua-{lua_version}.sha256"
         lua_patch = "build.patch"
